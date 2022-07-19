@@ -1,7 +1,13 @@
-// import request from '@/utils/request'
+import request from '@/utils/request'
 
+// 登录接口的封装
 export function login(data) {
-
+  // 返回一个promise对象
+  return request({
+    url: '/sys/login',
+    method: 'post',
+    data
+  })
 }
 
 export function getInfo(token) {
