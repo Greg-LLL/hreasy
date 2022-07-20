@@ -1,11 +1,21 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import store from '@/store'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 5000 // 设置超时时间
 })
 // 请求拦截器
-service.interceptors.request.use()
+service.interceptors.request.use(config => {
+  // config是我们请求的配置信息
+  // 注入token
+  if (store.getters.token) {
+    config.headers['Authorization'] = `Bearer ${store.getters.token}`
+  }
+  return config // config 是必须要返回的
+}, error => {
+  return Promise.reject(error)
+})
 // 响应拦截器
 service.interceptors.response.use(response => {
   // axios 默认加了一层data

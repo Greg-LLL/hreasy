@@ -10,8 +10,12 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
-
+// 获取用户资料
+export function getUserInfo() {
+  return request({
+    method: 'post',
+    url: '/sys/profile'
+  })
 }
 
 export function logout() {
