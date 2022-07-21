@@ -1,4 +1,4 @@
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 import { login, getUserInfo, getUserDetailById } from '@/api/user'
 const state = {
   token: getToken(), // 设置token为共享状态,一初始化vuex的时候就从缓存中读
@@ -27,7 +27,9 @@ const actions = {
     // 调用接口
     const result = await login(data)
     // 如果为true，表示登陆成功
-    context.commit('setToken', result)
+    context.commit('setToken', result)// 设置token
+    // 拿到token说明登录成功
+    setTimeStamp() // 设置当前的时间戳
   },
   async getUserInfo(context) {
     const result = await getUserInfo()

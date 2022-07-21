@@ -42,12 +42,12 @@ export default {
     // Breadcrumb,
     Hamburger
   },
+  data() {
+    return {
+      defaultImg: require('@/assets/common/head.jpg')
+    }
+  },
   computed: {
-    data() {
-      return {
-        defaultImg: require('@/assets/common/head.jpg')
-      }
-    },
     ...mapGetters([
       'sidebar',
       'name',
