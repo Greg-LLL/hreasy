@@ -11,15 +11,23 @@ import 'nprogress/nprogress.css' // 引入进度条样式
 // next(false) 跳转终止
 // next(地址) 跳转到某个地址
 const whilteList = ['/login', '/404'] // 白名单
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   nprogress.start() // 开启进度条
   // 判断是否有token
   if (store.getters.token) {
+    // 只有有token的情况下 才能获取用户资料
     //   如果有token且访问的是登录页面
     if (to.path === '/login') {
       next('/') // 跳转到首页
     } else {
+      // 只有放过去的时候才去获取用户资料
+      // 是每次都获取吗？不是
       // 如果有token 访问的不是登录页面 则放行
+      if (!store.getters.userId) {
+        // 如果没有用户Id 表示当前用户资料没有获取过
+        await store.dispatch('user/getUserInfo')
+        // 如果说后续 需要根据用户资料获取数据的化，这里必须改成同步
+      }
       next()
     }
   } else {
