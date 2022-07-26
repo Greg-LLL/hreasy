@@ -7,7 +7,7 @@ const TimeOut = 3600// 定义超时时间
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 5000 // 设置超时时间
+  timeout: 10000 // 设置超时时间
 })
 // 请求拦截器
 service.interceptors.request.use(config => {

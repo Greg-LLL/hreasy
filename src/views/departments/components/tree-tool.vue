@@ -50,9 +50,10 @@ export default {
         this.$emit('addDepts', this.treeNode)
       } else if (type === 'edit') {
         // 编辑部门
+        this.$emit('editDepts', this.treeNode)
       } else {
         // 删除部门
-        this.$confirm('您缺点要删除该组织部门吗？').then(() => {
+        this.$confirm('您确定要删除该组织部门吗？').then(() => {
           return delDepartment(this.treeNode.id)
         }).then(() => {
           // 只需要等到成功的时候 调用接口删除了 后端数据变化了 前端没变
