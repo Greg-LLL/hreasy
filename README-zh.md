@@ -1,5 +1,7 @@
 # vue-admin-template
 
+> 这是一个基于vue-element-admin开发的人资中台管理系统，主要运用了vue全家桶，elementUI框架，下面是vue-element-admin的一些介绍，线上地址为vue-element-admin的地址，并非本项目地址。
+
 > 这是一个极简的 vue admin 管理后台。它只包含了 Element UI & axios & iconfont & permission control & lint，这些搭建后台必要的东西。
 
 [线上地址](http://panjiachen.github.io/vue-admin-template)
