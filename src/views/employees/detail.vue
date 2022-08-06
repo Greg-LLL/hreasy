@@ -18,8 +18,20 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="个人详情" />
-          <el-tab-pane label="岗位信息" />
+          <el-tab-pane label="个人详情">
+            <!-- <UserInfo /> -->
+            <!-- Vuejs中内置了一个组件component 可以是任何组件 -->
+            <!-- 动态组件 可以切换组件 -->
+            <component :is="userComponent" />
+            <!-- 在以上代码中，我们使用了动态组件component，
+            它通过:is属性来绑定需要显示在该位置的组件，
+            is属性可以直接为注册组件的组件名称即可
+            利用这种方式需要在data中声明变量，变量值为组件名
+            -->
+          </el-tab-pane>
+          <el-tab-pane label="岗位信息">
+            <component :is="JobInfo" />
+          </el-tab-pane>
         </el-tabs>
       </el-card>
     </div>
@@ -29,9 +41,17 @@
 <script>
 import { getUserDetailById } from '@/api/user'
 import { saveUserDetailById } from '@/api/employees'
+import UserInfo from './components/user-info.vue'
+import JobInfo from './components/job-info.vue'
 export default {
+  components: {
+    UserInfo,
+    JobInfo
+  },
   data() {
     return {
+      userComponent: 'UserInfo',
+      JobInfo: 'JobInfo',
       userId: this.$route.params.id, // 直接将路由中的参数赋值给了data中的属性
       userInfo: {
         username: '',
@@ -50,7 +70,6 @@ export default {
   methods: {
     async getUserDetailById() {
       this.userInfo = await getUserDetailById(this.userId)
-      console.log(this.userInfo)
     },
     saveUser() {
       this.$refs.userForm.validate().then(async() => {
@@ -59,7 +78,6 @@ export default {
       })
     }
   }
-
 }
 </script>
 
