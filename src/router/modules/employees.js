@@ -14,5 +14,12 @@ export default {
       title: '员工管理', // 这里为什么要用title啊？因为左侧导航读取了这里的title属性
       icon: 'people'
     }
+  }, {
+    path: 'detail/:id', // 动态路由参数  动态参数后面加?,表示有参数可以访问，没有参数也可以访问
+    component: () => import('@/views/employees/detail'),
+    hidden: true, // 表示该内容不在左侧菜单显示
+    meta: {
+      title: '员工详情'
+    }
   }]
 }
