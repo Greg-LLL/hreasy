@@ -18,6 +18,17 @@
       <el-table v-loading="loading" :data="list">
         <el-table-column type="index" label="序号" sortable="" />
         <el-table-column prop="username" label="姓名" sortable="" />
+        <el-table-column width="120px" label="头像" align="center">
+          <!-- 插槽 -->
+          <template v-slot="{ row}">
+            <img
+              v-imagerror="require('@/assets/common/head.jpg')"
+              :src="row.staffPhoto"
+              alt=""
+              style="border-radius:50%;width:100px;height:100px;padding:10px"
+            >
+          </template>
+        </el-table-column>
         <el-table-column prop="workNumber" label="工号" sortable="" />
         <el-table-column prop="formOfEmployment" label="聘用形式" :formatter="formatEmployment" sortable="" />
         <el-table-column prop="departmentName" label="部门" sortable="" />
@@ -78,6 +89,7 @@ export default {
         page: 1,
         size: 10,
         total: 0 // 总数
+
       },
       loading: false, // 显示遮罩层
       showDialog: false // 默认关闭弹层
