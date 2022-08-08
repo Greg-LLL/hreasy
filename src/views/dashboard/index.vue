@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
-    <UploadExcel />
+    <ImageUpload />
   </div>
 </template>
 

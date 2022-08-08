@@ -58,7 +58,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
-
+            <imageUpload ref="staffPhoto" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -90,6 +90,7 @@
 
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
+          <imageUpload ref="myStaffPhoto" />
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -365,16 +366,39 @@ export default {
   methods: {
     async getUserDetailById() {
       this.userInfo = await getUserDetailById(this.userId)
+      if (this.userInfo.staffPhoto && this.userInfo.staffPhoto.trim()) {
+        // 如果有值 表示已经有一个上传成功的图片
+        // 上传成功的图片 upload：true 表示该图片已经上传成功
+        this.$refs.staffPhoto.fileList = [{ url: this.userInfo.staffPhoto, upload: true }]
+      }
     },
     async getPersonalDetail() {
       this.formData = await getPersonalDetail(this.userId)
+      if (this.formData.staffPhoto && this.formData.staffPhoto.trim()) {
+        this.$refs.myStaffPhoto.fileList = [{ url: this.formData.staffPhoto, upload: true }]
+      }
     },
     async saveUser() {
-      await saveUserDetailById(this.userInfo)
+      // 先去获取头像中的地址
+      const fileList = this.$refs.staffPhoto.fileList // 数组
+      // 判断当前图片是否上传成功
+      if (fileList.some(item => !item.upload)) {
+        // 说明此时有图片还没有上传完成
+        this.$message.warning('图片正在上传,请稍等...')
+        return
+      }
+      // staffPhoto 由于接口问题 必须给个空格字符串才能存进去
+      await saveUserDetailById({ ...this.userInfo, staffPhoto: fileList.length ? fileList[0].url : ' ' }) // 判断是否有头像
       this.$message.success('保存用户基本信息成功')
     },
     async savePersonal() {
-      await updatePersonal(this.formData)
+      const fileList = this.$refs.myStaffPhoto.fileList
+      if (fileList.some(item => !item.upload)) {
+        // 说明此时有图片还没有上传完成
+        this.$message.warning('图片正在上传,请稍等...')
+        return
+      }
+      await updatePersonal({ ...this.formData, staffPhoto: fileList.length ? fileList[0].url : ' ' })
       this.$message.success('保存用户基础信息成功')
     }
   }
