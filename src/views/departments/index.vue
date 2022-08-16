@@ -60,7 +60,6 @@ export default {
       const result = await getDepartments()
       this.company = { name: result.companyName, manager: '负责人', id: '' }
       this.departs = tranListToTreeData(result.depts, '')
-      console.log(result)
     },
     // 监听tree-tools中触发的点击添加子部门事件
     addDepts(node) {

@@ -25,10 +25,22 @@ router.beforeEach(async(to, from, next) => {
       // 如果有token 访问的不是登录页面 则放行
       if (!store.getters.userId) {
         // 如果没有用户Id 表示当前用户资料没有获取过
-        await store.dispatch('user/getUserInfo')
+        // async函数所return的内容 用await就可以接受到
+        const { roles } = await store.dispatch('user/getUserInfo')
         // 如果说后续 需要根据用户资料获取数据的化，这里必须改成同步
+        // 筛选用户可用的路由
+        const routes = await store.dispatch('permission/filterRoutes', roles.menus) // 筛选用户可用的动态路由
+        // routes就是筛选得到的动态路由
+        // 把动态路由添加到路由表中 默认的路由表只有静态路由 没有动态路由
+        // addRoutes
+        router.addRoutes(routes) // 添加我们的动态路由到路由表
+        // 添加完动态路由之后 必须 用 next(地址) 不能用next()
+        next(to.path) // 相当于跳到对应的地址 相当于多做一次跳转 为什么要多做一次跳转
+        // 进门了，但是进门之后我要去的地方的路还没有铺好，直接走，掉坑里，
+        // 多做一次跳转，再从门外往里进一次，跳转之前 把路铺好，再次进来的时候，路就铺好了
+      } else {
+        next()
       }
-      next()
     }
   } else {
     // 没有token的情况下
