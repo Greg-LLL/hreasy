@@ -70,10 +70,13 @@ export const constantRoutes = [
       path: '', // 什么都不写，表示默认的二级路由
       component: () => import('@/views/import')
     }]
-  },
+  }
 
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  // 404路由添加到所有路由的最后面
+  // 放在这里是静态路由的最后，不是所有路由的最后
+  // 所有要将这个路由放在permission.js中，合并到动态路由的最后
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 // 定义一个动态路由变量
