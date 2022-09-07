@@ -9,6 +9,7 @@ export default {
     //   二级路由的path什么都不写的时候，此时它表示二级路由的默认路由
     path: '', // 这里不用写，什么都不写 表示、employess 不但有我们的布局layout 还有员工主页
     component: () => import('@/views/departments'),
+    name: 'departments',
     // 路由元信息，其实就是一个存储数据的地方，可以放任何内容
     meta: {
       title: '组织架构', // 这里为什么要用title啊？因为左侧导航读取了这里的title属性
